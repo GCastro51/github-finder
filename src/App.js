@@ -26,7 +26,11 @@ class App extends Component {
     this.setState({ loading: true });
 
     // Axios to get data
-    const res = await axios.get(`https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    const res = await axios.get(`https://api.github.com/users`, {
+      'headers': {
+        'Authorization': `token ${process.env.REACT_APP_GITHUB_PERSONAL_TOKEN}` 
+      }
+    });
 
     this.setState({ users: res.data, loading: false });
 
@@ -38,7 +42,11 @@ class App extends Component {
     this.setState({ loading: true });
 
     // Axios to get data
-    const res = await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    const res = await axios.get(`https://api.github.com/search/users?q=${text}`, {
+      'headers': {
+        'Authorization': `token ${process.env.REACT_APP_GITHUB_PERSONAL_TOKEN}` 
+      }
+    });
 
     this.setState({ users: res.data.items, loading: false });
     
@@ -50,7 +58,11 @@ class App extends Component {
     this.setState({ loading: true });
 
     // Axios to get data
-    const res = await axios.get(`https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    const res = await axios.get(`https://api.github.com/users/${username}`, {
+      'headers': {
+        'Authorization': `token ${process.env.REACT_APP_GITHUB_PERSONAL_TOKEN}` 
+      }
+    });
 
     this.setState({ user: res.data, loading: false });
   }
@@ -61,7 +73,11 @@ class App extends Component {
     this.setState({ loading: true });
 
     // Axios to get data
-    const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc`, {
+      'headers': {
+        'Authorization': `token ${process.env.REACT_APP_GITHUB_PERSONAL_TOKEN}` 
+      }
+    });
 
     this.setState({ repos: res.data, loading: false });
   }
