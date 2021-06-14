@@ -55,6 +55,7 @@ const User = ({ match }) => {
         </div>
         <div>
           {bio && (<Fragment>
+              <h2>{name}</h2>
               <h3>Bio</h3>
               <p>{bio}</p>
             </Fragment>
