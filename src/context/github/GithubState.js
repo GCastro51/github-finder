@@ -11,7 +11,8 @@ import {
   SET_LOADING,
   CLEAR_USERS,
   GET_USER,
-  GET_REPOS
+  GET_REPOS,
+  GET_GISTS
 } from '../types';
 
 let githubClientToken;
@@ -27,6 +28,7 @@ const GithubState = props => {
     users: [],
     user: {},
     repos: [],
+    gists: [],
     loading: false
   }
 
@@ -85,6 +87,23 @@ const GithubState = props => {
     })
   };
 
+  // Get Gists
+  const getUserGists = async (username) => {
+    setLoading(true);
+
+    // Axios to get data
+    const res = await axios.get(`https://api.github.com/users/${username}/gists?per_page=5&sort=created:asc`, {
+      'headers': {
+        'Authorization': `token ${githubClientToken}` 
+      }
+    });
+    
+    dispatch({
+      type: GET_GISTS,
+      payload: res.data
+    })
+  };
+
   // Clear Users
   const clearUsers = () => dispatch({ type: CLEAR_USERS });
 
@@ -97,11 +116,13 @@ const GithubState = props => {
       users: state.users,
       user: state.user,
       repos: state.repos,
+      gists: state.gists,
       loading: state.loading,
       searchUsers,
       clearUsers,
       getUser,
-      getUserRepos
+      getUserRepos,
+      getUserGists
     }}
   >
     {props.children}

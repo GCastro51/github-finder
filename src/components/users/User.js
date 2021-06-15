@@ -1,19 +1,21 @@
 import React, { useEffect, Fragment, useContext } from 'react'
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
+import Gists from '../gists/Gists';
 import { Link } from 'react-router-dom';
 import GithubContext from '../../context/github/githubContext';
 
 const User = ({ match }) => {
   const githubContext = useContext(GithubContext);
 
-  const { getUser, loading, user, repos, getUserRepos } = githubContext;
+  const { getUser, loading, user, repos, getUserRepos, gists, getUserGists } = githubContext;
 
   // Replaces ComponentMount
   // need to add to end paramters when you want it to run (will run infinite without). empty brackets will make run once
   useEffect(() => {
     getUser(match.params.login);
     getUserRepos(match.params.login);
+    getUserGists(match.params.login);
     // eslint-disable-next-line
   }, []);
   // can ignore errors for dependencies (will infinite load w/ dependencies in brackets - add comment above to clear error. 
@@ -60,7 +62,7 @@ const User = ({ match }) => {
               <p>{bio}</p>
             </Fragment>
           )}
-          <a href={html_url} className="btn btn-dark my-1">Visit GitHub Profile</a>
+          <a href={html_url} className="btn btn-dark my-1" target="_blank">Visit GitHub Profile</a>
           <ul>
             <li>
               {login && <Fragment>
@@ -87,8 +89,10 @@ const User = ({ match }) => {
         <div className="badge badge-light">Public Repos: {public_repos}</div>
         <div className="badge badge-dark">Public Gists: {public_gists}</div>
       </div>
-
+      <h2>Repos</h2>
       <Repos repos={repos} />
+      <h2>Gists</h2>
+      <Gists gists={gists} />
     </Fragment>
   )
 }
